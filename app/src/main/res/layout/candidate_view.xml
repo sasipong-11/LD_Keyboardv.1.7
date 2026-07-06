@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".SoftKeyboard">
+
+    <!-- Loading Status-->
+    <RelativeLayout
+        android:id="@+id/progressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_gravity="center_horizontal" >
+
+        <ProgressBar
+            android:id="@+id/indeterminateBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:maxHeight="50dp"
+            android:minHeight="50dp"
+            android:minWidth="50dp"
+            android:maxWidth="50dp" />
+        <TextView
+            android:id="@+id/progressTxt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="-50dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:text="กำลังค้นหาข้อมูล"/>
+    </RelativeLayout>
+
+    <!-- show meaning of the word-->
+    <RelativeLayout
+        android:id="@+id/dictionaryLayout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@color/blueBg">
+
+        <ListView
+            android:id="@+id/wordList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageButton
+            android:id="@+id/closeDictBtn"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="7dp"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
+            app:srcCompat="@drawable/ic_close" />
+
+    </RelativeLayout>
+
+    <!-- show selected word, sound, and meaning buttons-->
+    <RelativeLayout
+        android:id="@+id/funcLayout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/blueTheme">
+
+        <TextView
+            android:id="@+id/selectedWordTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/speakBtn"
+            android:textColor="@android:color/white"
+            android:textSize="23sp"
+            android:layout_centerInParent="true"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"/>
+
+        <ImageButton
+            android:id="@+id/speakBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="6dp"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/dictBtn"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/description_listen"
+            app:srcCompat="@drawable/ic_tts"  />
+
+        <ImageButton
+            android:id="@+id/dictBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="6dp"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/commitTextBtn"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/description_meaning"
+
+            app:srcCompat="@drawable/ic_dictionary" />
+
+        <ImageButton
+            android:id="@+id/commitTextBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="6dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/description_select"
+            app:srcCompat="@drawable/ic_select_word" />
+
+
+    </RelativeLayout>
+
+    <!-- show 6 candidates-->
+    <RelativeLayout
+        android:id="@+id/candidateWordLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blueBorder"  >
+
+       <ImageButton
+            android:id="@+id/prevBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:background="@android:color/transparent"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            app:srcCompat="@drawable/ic_prev_word"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/prevBtn"
+            android:layout_toLeftOf="@+id/nextBtn"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:id="@+id/word01Btn"
+                        android:textSize="18sp"
+                        android:background="@color/keyNormal"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:id="@+id/word02Btn"
+                        android:textSize="18sp"
+                        android:background="@color/keyNormal"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:id="@+id/word03Btn"
+                        android:textSize="18sp"
+                        android:background="@color/keyNormal"
+                        android:textColor="@color/white" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:id="@+id/word04Btn"
+                        android:textSize="18sp"
+                        android:background="@color/keyNormal"
+                        android:textColor="@color/white"/>
+
+                    <Button
+                        android:id="@+id/word05Btn"
+                        android:textSize="18sp"
+                        android:background="@color/keyNormal"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:id="@+id/word06Btn"
+                        android:textSize="18sp"
+                        android:background="@color/keyNormal"
+                        android:textColor="@color/white" />
+                </TableRow>
+
+            </TableLayout>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/nextBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
+
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+
+            app:srcCompat="@drawable/ic_next_word" />
+
+
+    </RelativeLayout>
+
+
+    <!-- show typing bar-->
+    <RelativeLayout
+        android:id="@+id/onKeyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/blueTypingBar">
+
+        <TextView
+            android:id="@+id/onKeyTxt"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textColor="@color/black"
+            android:textSize="23sp"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/lineKbLayout"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/blueBorder">
+    </RelativeLayout>
+
+</LinearLayout>

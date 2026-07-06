@@ -1,0 +1,12 @@
+# Build artifacts
+build/
+app/build/
+.gradle/
+
+# IDE
+.idea/
+*.iml
+.DS_Store
+
+# Local config
+local.properties

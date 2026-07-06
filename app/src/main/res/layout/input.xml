@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<th.or.nectec.twskeyboard.LatinKeyboardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:id="@+id/keyboard"
+    android:layout_alignParentBottom="true"
+    android:paddingTop="2dp"
+    android:paddingRight="2dp"
+    android:layout_marginTop="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:keyPreviewLayout="@layout/preview"
+    android:keyPreviewHeight="50dp"
+    android:keyBackground="@drawable/key_background"
+    android:keyTextColor="@android:color/transparent"
+    android:background="@drawable/img11"
+    android:popupLayout="@layout/keyboard_popup_layout"
+    android:shadowColor="@color/blueThemeText"
+    android:shadowRadius="0">
+
+</th.or.nectec.twskeyboard.LatinKeyboardView>

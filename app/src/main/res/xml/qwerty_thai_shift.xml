@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/* 
+**
+** Copyright 2008, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License"); 
+** you may not use this file except in compliance with the License. 
+** You may obtain a copy of the License at 
+**
+**     http://www.apache.org/licenses/LICENSE-2.0 
+**
+** Unless required by applicable law or agreed to in writing, software 
+** distributed under the License is distributed on an "AS IS" BASIS, 
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+** See the License for the specific language governing permissions and 
+** limitations under the License.
+*/
+-->
+
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keyWidth="10%p"
+    android:horizontalGap="@dimen/horizontalGap"
+    android:verticalGap="@dimen/verticalGap"
+    android:keyHeight="@dimen/key_height">
+
+    <Row>
+        <Key android:codes="43" android:keyLabel="+" android:keyWidth="7.25%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="600" android:keyLabel="๑" android:keyWidth="7.25%p"/>
+        <Key android:codes="601" android:keyLabel="๒" android:keyWidth="7.25%p"/>
+        <Key android:codes="602" android:keyLabel="๓" android:keyWidth="7.25%p"/>
+        <Key android:codes="603" android:keyLabel="๔" android:keyWidth="7.25%p"/>
+        <Key android:codes="604" android:keyLabel="ู" android:keyWidth="7.25%p"/>
+        <Key android:codes="605" android:keyLabel="฿" android:keyWidth="7.25%p"/>
+        <Key android:codes="606" android:keyLabel="๕" android:keyWidth="7.25%p"/>
+        <Key android:codes="607" android:keyLabel="๖" android:keyWidth="7.25%p"/>
+        <Key android:codes="608" android:keyLabel="๗" android:keyWidth="7.25%p"/>
+        <Key android:codes="609" android:keyLabel="๘" android:keyWidth="7.25%p"/>
+        <Key android:codes="610" android:keyLabel="๙" android:keyWidth="7.25%p" android:keyEdgeFlags="right" />
+    </Row>
+
+    <Row>
+        <Key android:codes="700" android:keyLabel="๐" android:keyWidth="7.25%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="34" android:keyLabel="&quot;" android:keyWidth="7.25%p"/>
+        <Key android:codes="702" android:keyLabel="ฎ" android:keyWidth="7.25%p"/>
+        <Key android:codes="703" android:keyLabel="ฑ" android:keyWidth="7.25%p"/>
+        <Key android:codes="704" android:keyLabel="ธ" android:keyWidth="7.25%p"/>
+        <Key android:codes="705" android:keyLabel="ํ" android:keyWidth="7.25%p"/>
+        <Key android:codes="706" android:keyLabel="๊" android:keyWidth="7.25%p"/>
+        <Key android:codes="707" android:keyLabel="ณ" android:keyWidth="7.25%p"/>
+        <Key android:codes="708" android:keyLabel="ฯ" android:keyWidth="7.25%p"/>
+        <Key android:codes="709" android:keyLabel="ญ" android:keyWidth="7.25%p"/>
+        <Key android:codes="710" android:keyLabel="ฐ" android:keyWidth="7.25%p"/>
+        <Key android:codes="44" android:keyLabel="," android:keyWidth="7.25%p" android:keyEdgeFlags="right"/>
+    </Row>
+    <Row>
+
+
+
+        <Key android:codes="800" android:keyLabel="ฤ" android:keyWidth="7.25%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="801" android:keyLabel="ฆ" android:keyWidth="7.25%p"/>
+        <Key android:codes="802" android:keyLabel="ฏ" android:keyWidth="7.25%p"/>
+        <Key android:codes="803" android:keyLabel="โ" android:keyWidth="7.25%p"/>
+        <Key android:codes="804" android:keyLabel="ฌ" android:keyWidth="7.25%p"/>
+        <Key android:codes="805" android:keyLabel="็" android:keyWidth="7.25%p"/>
+        <Key android:codes="806" android:keyLabel="๋" android:keyWidth="7.25%p"/>
+        <Key android:codes="807" android:keyLabel="ษ" android:keyWidth="7.25%p"/>
+        <Key android:codes="808" android:keyLabel="ศ" android:keyWidth="7.25%p"/>
+        <Key android:codes="809" android:keyLabel="ซ" android:keyWidth="7.25%p"/>
+        <Key android:codes="33" android:keyLabel="!" android:keyWidth="7.25%p"/>
+        <Key android:codes="810" android:keyLabel="ฅ" android:keyWidth="7.25%p" android:keyEdgeFlags="right"/>
+    </Row>
+
+    <Row>
+        <Key android:codes="-102" android:keyIcon="@drawable/ic_caps_black" android:keyWidth="7.25%p"
+                android:isModifier="true" android:isSticky="true" android:keyEdgeFlags="left"/>
+        <Key android:codes="40" android:keyLabel="(" android:keyWidth="7.25%p"/>
+        <Key android:codes="41" android:keyLabel=")" android:keyWidth="7.25%p"/>
+        <Key android:codes="902" android:keyLabel="ฉ" android:keyWidth="7.25%p"/>
+        <Key android:codes="903" android:keyLabel="ฮ" android:keyWidth="7.25%p"/>
+        <Key android:codes="904" android:keyLabel="ฺ" android:keyWidth="7.25%p"/>
+        <Key android:codes="905" android:keyLabel="์" android:keyWidth="7.25%p"/>
+        <Key android:codes="63" android:keyLabel="\?" android:keyWidth="7.25%p"/>
+        <Key android:codes="907" android:keyLabel="ฒ" android:keyWidth="7.25%p"/>
+        <Key android:codes="908" android:keyLabel="ฬ" android:keyWidth="7.25%p"/>
+        <Key android:codes="909" android:keyLabel="ฦ" android:keyWidth="7.25%p"/>
+        <Key android:codes="-5" android:keyIcon="@drawable/ic_del" android:keyWidth="7.25%p"
+                android:isRepeatable="true" android:keyEdgeFlags="right" />
+    </Row>
+
+    <Row android:rowEdgeFlags="bottom">
+        <Key android:codes="-3" android:keyIcon="@drawable/ldbtn_icon" android:keyWidth="12%p"
+            android:keyEdgeFlags="left"/>
+
+        <Key android:codes="-101" android:keyIcon="@drawable/ic_language" android:keyWidth="11.5%p"/>
+
+        <Key android:codes="-2" android:keyLabel="123" android:keyWidth="13%p"/>
+
+        <Key android:codes="32" android:keyIcon="@drawable/ic_space" android:keyWidth="37.75%p"
+            android:isRepeatable="true"/>
+
+        <Key android:codes="46" android:keyLabel="." android:keyWidth="7.25%p"/>
+
+        <Key android:codes="10" android:keyIcon="@drawable/ic_enter" android:keyWidth="11.5%p"
+            android:isRepeatable="true" android:keyEdgeFlags="right"/>
+    </Row>
+</Keyboard>
+    
