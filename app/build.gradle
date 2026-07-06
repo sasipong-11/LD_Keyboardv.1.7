@@ -7,7 +7,6 @@ android {
         applicationId "th.or.nectec.twskeyboard"
         minSdkVersion 16
         targetSdkVersion 29
-        versionName '1.7'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -27,7 +26,20 @@ android {
     sourceSets {
         main { assets.srcDirs = ['src/main/assets', 'src/main/assets/', 'src/main/res/assets'] }
     }
+    flavorDimensions "license"
     productFlavors {
+        free {
+            dimension "license"
+            versionName "1.6"
+            versionCode 160
+            buildConfigField "boolean", "LICENSE_ENABLED", "false"
+        }
+        pro {
+            dimension "license"
+            versionName "1.7"
+            versionCode 170
+            buildConfigField "boolean", "LICENSE_ENABLED", "true"
+        }
     }
     configurations.all {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->

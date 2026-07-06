@@ -19,13 +19,14 @@
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
         android:usesCleartextTraffic="true"
         >
-        <activity android:name=".KeyboardSettingActivity">
+        <activity android:name=".LicenseActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <activity android:name=".KeyboardSettingActivity" />
         <activity android:name=".ManualActivity" />
         <activity android:name=".G2PActivity" />
         <activity android:name=".DownloadDataActivity" />
