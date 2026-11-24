@@ -54,6 +54,7 @@ public class LicenseActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_license);
+        ((TextView) findViewById(R.id.versionText)).setText("Version " + BuildConfig.VERSION_NAME);
 
         licenseInput = (EditText) findViewById(R.id.licenseInput);
         activateBtn = (Button) findViewById(R.id.activateBtn);
@@ -178,9 +179,11 @@ public class LicenseActivity extends AppCompatActivity {
                 while ((line = reader.readLine()) != null) sb.append(line);
                 reader.close();
                 conn.disconnect();
-                Log.d("LICENSE", "endpoint=" + LicenseManager.URL_ACTIVATED);
-                Log.d("LICENSE", "rawKey=" + rawKey);
-                Log.d("LICENSE", "response=" + sb.toString());
+                if (BuildConfig.DEBUG) {
+                    Log.d("LICENSE", "endpoint=" + LicenseManager.URL_ACTIVATED);
+                    Log.d("LICENSE", "rawKey=" + rawKey);
+                    Log.d("LICENSE", "response=" + sb.toString());
+                }
                 return sb.toString();
 
             } catch (Exception e) {

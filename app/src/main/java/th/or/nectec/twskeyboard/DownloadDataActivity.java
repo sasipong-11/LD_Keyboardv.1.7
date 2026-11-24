@@ -12,33 +12,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -53,7 +32,7 @@ public class DownloadDataActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download_data);
         DownloadFileAsync DFA = new DownloadFileAsync();
-        DFA.execute(G2PApp.G2P_URL);
+        DFA.execute();
     }
 
     protected Dialog onCreateDialog(int id) {
@@ -72,6 +51,12 @@ public class DownloadDataActivity extends Activity {
 
     public void onBackPressed() {
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        GraphemeToPhoneme.releaseDataSetup();
+        super.onDestroy();
     }
 
     class DownloadFileAsync extends AsyncTask<String, String, String>  {
@@ -94,76 +79,6 @@ public class DownloadDataActivity extends Activity {
         }
 
 
-
-        private String postURL(String urlInput) {
-            String deviceId = G2PApp.getDeviceID(DownloadDataActivity.this);
-            String account = G2PApp.getAccount(DownloadDataActivity.this);
-            String deviceName = G2PApp.getDeviceName();
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-            nameValuePairs.add(new BasicNameValuePair("device", deviceId));
-            nameValuePairs.add(new BasicNameValuePair("account", account));
-            nameValuePairs.add(new BasicNameValuePair("build", deviceName));
-
-            HttpParams params = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(params, 5000);
-            HttpConnectionParams.setSoTimeout(params, 5000);
-            HttpClient httpclient = new DefaultHttpClient(params);
-            HttpPost httppost = new HttpPost(urlInput);
-            BufferedReader in = null;
-            try {
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-                HttpResponse response = httpclient.execute(httppost);
-                in = new BufferedReader(new InputStreamReader(response
-                        .getEntity().getContent()));
-                StringBuffer sb = new StringBuffer("");
-                String line = "";
-                String NL = System.getProperty("line.separator");
-                while ((line = in.readLine()) != null) {
-                    sb.append(line + NL);
-                }
-                in.close();
-                String page = sb.toString();
-                return page;
-            } catch (ClientProtocolException e) {
-                // TODO Auto-generated catch block
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-            }
-            return "";
-        }
-
-        private boolean downloadData(String urlInput, String outputFile) {
-            try {
-                URL url = new URL(urlInput);
-                URLConnection conexion = url.openConnection();
-                conexion.connect();
-
-                int lenghtOfFile = conexion.getContentLength();
-                Log.i(TAG, "Lenght of file: " + lenghtOfFile);
-
-                InputStream input = new BufferedInputStream(url.openStream());
-
-                OutputStream output = new FileOutputStream(outputFile);
-
-                byte data[] = new byte[1024];
-
-                long total = 0;
-
-                int count;
-                while ((count = input.read(data)) != -1) {
-                    total += count;
-                    publishProgress("" + (int) ((total * 100) / lenghtOfFile));
-                    output.write(data, 0, count);
-                }
-                output.flush();
-                output.close();
-                input.close();
-            } catch (Exception e) {
-                Log.e(TAG, "Error: Download file.");
-                return false;
-            }
-            return true;
-        }
 
         protected void onProgressUpdate(String... progress) {
 //            Log.i(TAG,progress[0]);

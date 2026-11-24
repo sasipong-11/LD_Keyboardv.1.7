@@ -10,3 +10,8 @@ app/build/
 
 # Local config
 local.properties
+
+# Release signing secrets
+keystore.properties
+*.jks
+*.keystore

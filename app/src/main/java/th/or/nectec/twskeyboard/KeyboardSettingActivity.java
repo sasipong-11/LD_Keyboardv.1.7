@@ -1,12 +1,8 @@
 package th.or.nectec.twskeyboard;
 
-import android.Manifest;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
@@ -25,13 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 public class KeyboardSettingActivity extends AppCompatActivity {
 
@@ -63,7 +53,7 @@ public class KeyboardSettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_keyboard_setting);
-        requestAppPermissions();
+        ((TextView) findViewById(R.id.versionDetailTxt)).setText("LD Keyboard version " + BuildConfig.VERSION_NAME);
        /* AnalyticsApplication application = (AnalyticsApplication) getApplication();
         mTracker = application.getDefaultTracker();
         mTracker.setScreenName("Keyboard Activity");
@@ -361,73 +351,4 @@ public class KeyboardSettingActivity extends AppCompatActivity {
 
 
     }
-
-
-
-
-    private void ViewPDFFile(String pdfFileName) {
-        AssetManager assetManager = getAssets();
-
-        InputStream in = null;
-        OutputStream out = null;
-        File file = new File(getFilesDir(), pdfFileName);
-        try {
-            in = assetManager.open(pdfFileName);
-            out = openFileOutput(file.getName(), Context.MODE_WORLD_READABLE);
-
-            copyFile(in, out);
-            in.close();
-            in = null;
-            out.flush();
-            out.close();
-            out = null;
-        } catch (Exception e) {
-            Log.e("tag", e.getMessage());
-        }
-
-        try {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(
-                    Uri.parse("file://" + getFilesDir() + "/" + pdfFileName),
-                    "application/pdf");
-            startActivity(intent);
-            finish();
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, "PDF reader does not found." + e, Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void copyFile(InputStream in, OutputStream out) throws IOException {
-        byte[] buffer = new byte[1024];
-        int read;
-        while ((read = in.read(buffer)) != -1) {
-            out.write(buffer, 0, read);
-        }
-    }
-
-    public void requestAppPermissions() {
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            return;
-        }
-
-        if (hasReadPermissions() && hasWritePermissions()) {
-            return;
-        }
-
-        ActivityCompat.requestPermissions(this ,
-                new String[] {
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                }, 112); // your request code
-    }
-
-    private boolean hasReadPermissions() {
-        return (ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
-    }
-
-    private boolean hasWritePermissions() {
-        return (ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
-    }
-
-
 }
