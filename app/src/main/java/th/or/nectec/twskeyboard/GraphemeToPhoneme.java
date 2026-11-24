@@ -64,13 +64,30 @@ public class GraphemeToPhoneme {
         return "";
     }
 
+    // getG2P() runs once per candidate word, so before the data exists every call would
+    // open DownloadDataActivity again (several copies writing the same file at once).
+    // Only one setup screen may be open at a time; DownloadDataActivity releases it on destroy.
+    private static boolean dataSetupRunning = false;
+
+    private static synchronized boolean claimDataSetup() {
+        if (dataSetupRunning) {
+            return false;
+        }
+        dataSetupRunning = true;
+        return true;
+    }
+
+    static synchronized void releaseDataSetup() {
+        dataSetupRunning = false;
+    }
+
     public void downloadVoiceData() {
         // delete folder when in install first time
         if (!sharedPreferences.getBoolean("downloadG2P", false)) {
             G2PApp.deleteFolder();
             sharedPreferences.edit().putBoolean("downloadG2P", true).apply();
         }
-       if(!G2PApp.checkData())
+       if(!G2PApp.checkData() && claimDataSetup())
         {
             Intent intent = new Intent(ctx, DownloadDataActivity.class);
             intent.addFlags(FLAG_ACTIVITY_NEW_TASK);

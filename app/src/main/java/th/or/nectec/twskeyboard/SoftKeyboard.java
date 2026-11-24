@@ -69,8 +69,6 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.io.IOException;
 import java.text.BreakIterator;
@@ -189,7 +187,6 @@ public class SoftKeyboard extends InputMethodService
 
     private int mProgressStatus = 0;
     ProgressDialog mProgressDialog;
-    Tracker mTracker;
 
     /**
      * Main initialization of the input method component.  Be sure to call
@@ -201,9 +198,6 @@ public class SoftKeyboard extends InputMethodService
         inflater = getLayoutInflater();
 
         view = inflater.inflate(getResources().getLayout(R.layout.candidate_view), null, false);
-
-        AnalyticsApplication application = (AnalyticsApplication) getApplication();
-        mTracker = application.getDefaultTracker();
 
         sharedPreferences = this.getSharedPreferences("th.or.nectec.twskeyboard", Context.MODE_PRIVATE);
         mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -223,16 +217,9 @@ public class SoftKeyboard extends InputMethodService
         //  progress.setTitle("กำลังค้นหาคำศัพท์");
 //       progress.setMessage("กรุณารอสักครู่...");
 
-        //Copy Database from Assets
-        try {
-            CopyDatabase abc = new CopyDatabase("spell_sys.db", "dictionary.db");
-            abc.copyFile(this);
-
-            CopyDatabase def = new CopyDatabase("lexitron_v3.db", "lexitron.db");
-            def.copyFile(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Older versions copied unused duplicate databases here on every start; remove leftovers.
+        deleteDatabase("dictionary.db");
+        deleteDatabase("lexitron.db");
 
 
     }
@@ -274,8 +261,46 @@ public class SoftKeyboard extends InputMethodService
      * is displayed, and every time it needs to be re-created such as due to
      * a configuration change.
      */
+    // Pro flavor: without an activated license the keys are replaced by a lock panel.
+    private boolean mLicenseLocked = false;
+    private boolean mShowingLockView = false;
+    private View mLicenseLockView;
+
+    private boolean isLicenseLocked(EditorInfo attribute) {
+        if (!BuildConfig.LICENSE_ENABLED) {
+            return false;
+        }
+        // Our own activation screen must stay typeable, otherwise the key could not be entered.
+        if (attribute != null && getPackageName().equals(attribute.packageName)) {
+            return false;
+        }
+        return sharedPreferences.getString(LicenseManager.PREF_LICENSE_KEY, "").isEmpty();
+    }
+
+    private View getLicenseLockView() {
+        if (mLicenseLockView == null) {
+            mLicenseLockView = getLayoutInflater().inflate(R.layout.license_lock, null, false);
+            mLicenseLockView.findViewById(R.id.lockActivateBtn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(SoftKeyboard.this, LicenseActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+            });
+            mLicenseLockView.findViewById(R.id.lockSwitchImeBtn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mInputMethodManager.showInputMethodPicker();
+                }
+            });
+        }
+        return mLicenseLockView;
+    }
+
     @Override
     public View onCreateInputView() {
+        mShowingLockView = false;
 
         mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.input, null, false);
         mInputView.setOnKeyboardActionListener(this);
@@ -314,8 +339,7 @@ public class SoftKeyboard extends InputMethodService
      * be generated, like {@link #onCreateInputView}.
      */
     private void onTracker(String screenName) {
-        mTracker.setScreenName(screenName);
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        // Google Analytics (GA v3) was shut down; screen tracking is intentionally a no-op.
     }
 
 
@@ -1060,6 +1084,7 @@ public class SoftKeyboard extends InputMethodService
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
+        mLicenseLocked = isLicenseLocked(attribute);
 
         // Reset our state.  We want to do this even if restarting, because
         // the underlying state of the text editor could have changed in any way.
@@ -1193,6 +1218,19 @@ public class SoftKeyboard extends InputMethodService
     public void onStartInputView(EditorInfo attribute, boolean restarting) {
 
         super.onStartInputView(attribute, restarting);
+        if (mLicenseLocked) {
+            if (!mShowingLockView) {
+                setInputView(getLicenseLockView());
+                mShowingLockView = true;
+            }
+            setCandidatesViewShown(false);
+            return;
+        }
+        if (mShowingLockView) {
+            // License was activated since the lock panel was shown: bring the keys back.
+            setInputView(mInputView);
+            mShowingLockView = false;
+        }
         // Apply the selected keyboard to the input view.
         setLatinKeyboard(mCurKeyboard);
         mInputView.closing();
@@ -1645,7 +1683,7 @@ public class SoftKeyboard extends InputMethodService
     public void setSuggestions(List<String> suggestions, boolean completions,
                                boolean typedWordValid) {
 
-        setCandidatesViewShown(true);
+        setCandidatesViewShown(!mLicenseLocked);
         mSuggestions = suggestions;
         if (mCandidateView != null) {
             mCandidateView.setSuggestions(suggestions, completions, typedWordValid);
@@ -2168,7 +2206,7 @@ public class SoftKeyboard extends InputMethodService
                 toast.show();
 
                 Intent intent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE);
-                intent.setData(Uri.parse("package:th.or.nectec.twskeyboard"));
+                intent.setData(Uri.parse("package:" + getPackageName()));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 result = true;

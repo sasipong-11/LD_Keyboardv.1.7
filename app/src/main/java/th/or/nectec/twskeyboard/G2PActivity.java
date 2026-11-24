@@ -31,11 +31,9 @@ public class G2PActivity extends Activity {
         sharedPreferences = this.getSharedPreferences("th.or.nectec.twskeyboard", Context.MODE_PRIVATE);
 
         deviceID = G2PApp.getDeviceID(this);
-        account = G2PApp.getAccount(this);
 
         setContentView(R.layout.activity_g2_p);
         Log.i(TAG,"DeviceID = "+deviceID);
-        Log.i(TAG,"Account = "+account);
 
         downloadVoiceData();
 
