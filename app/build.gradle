@@ -69,6 +69,8 @@ android {
             // Play rejected th.or.nectec.twskeyboard (already taken), so pro ships under its own ID.
             // Only the app ID changes; namespace and Java packages stay th.or.nectec.twskeyboard.
             applicationId "th.or.nectec.ldkeyboard"
+            // Play automatic protection requires minSdk 24+ (upload rejected at 21).
+            minSdk 24
             versionName "1.7.1"
             versionCode 171
             buildConfigField "boolean", "LICENSE_ENABLED", "true"

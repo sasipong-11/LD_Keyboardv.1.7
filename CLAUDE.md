@@ -34,7 +34,7 @@ Use the Android Gradle Wrapper from the project root. Because of the product fla
 ./gradlew clean
 ```
 
-Build config: AGP 8.13 / Gradle 8.13 (needs JDK 17+; Android Studio's bundled JBR works — set `JAVA_HOME` to it), compileSdk 36, targetSdk 36, minSdk 21, Java 11. Dependencies are pure AndroidX (no support libs, no Jetifier needed). Prebuilt native `.so` files live in `app/src/main/jniLibs/` (no NDK build from source); `abiFilters` ships only `armeabi-v7a` and `arm64-v8a` because the x86_64 prebuilts are not 16 KB page aligned — so the app cannot run on x86 emulators, test on a real ARM device.
+Build config: AGP 8.13 / Gradle 8.13 (needs JDK 17+; Android Studio's bundled JBR works — set `JAVA_HOME` to it), compileSdk 36, targetSdk 36, minSdk 21 (pro overrides to 24 — Play automatic protection rejects lower), Java 11. Dependencies are pure AndroidX (no support libs, no Jetifier needed). Prebuilt native `.so` files live in `app/src/main/jniLibs/` (no NDK build from source); `abiFilters` ships only `armeabi-v7a` and `arm64-v8a` because the x86_64 prebuilts are not 16 KB page aligned — so the app cannot run on x86 emulators, test on a real ARM device.
 
 Release signing reads `keystore.properties` (`storeFile`, `storePassword`, `keyAlias`, `keyPassword`) from the project root; it and `*.jks` are gitignored. The upload keystore is kept outside the repo.
 
